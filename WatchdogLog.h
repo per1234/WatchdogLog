@@ -1,10 +1,10 @@
-// WatchdogLog - logs program address to EEPROM before watchdog timeout MCU reset
+// WatchdogLog - logs program address to EEPROM before watchdog timeout MCU reset https://github.com/per1234/WatchdogLog
 #ifndef WatchdogLog_h
 #define WatchdogLog_h
 #include <Arduino.h>
 #include <avr/wdt.h>
 
-namespace Watchdog {
+
 #if defined(__AVR_ATmega2560__)
 #define PROGRAM_COUNTER_SIZE 3 /* bytes*/
 #else
@@ -30,10 +30,10 @@ struct CCrashReport {
 } __attribute__((__packed__));
 
 
-class CWatchdogLog {
+class WatchdogLogClass {
     CCrashReport m_CrashReport;
   public:
-    CWatchdogLog();
+    WatchdogLogClass();
     unsigned long getLoggedAddress();
     void begin(int nBaseAddress);
 
@@ -54,9 +54,7 @@ class CWatchdogLog {
     int c_nBaseAddress;
 };
 
-}
-
-extern Watchdog::CWatchdogLog WatchdogLog;
+extern WatchdogLogClass WatchdogLog;
 
 #endif
 

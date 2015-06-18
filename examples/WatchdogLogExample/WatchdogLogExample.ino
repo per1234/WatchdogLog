@@ -4,7 +4,7 @@
 
 const byte EEPROMaddress = 0;  //EEPROM address to store the program address where the watchdog timeout reset occurred
 
-Watchdog::CWatchdogLog WatchdogLog;  //instantiate the class
+//Watchdog::CWatchdogLog WatchdogLog;  //instantiate the class
 
 void setup() {
   Serial.begin(9600);
