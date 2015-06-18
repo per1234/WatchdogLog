@@ -1,48 +1,31 @@
-#include <Arduino.h>
-#include "ApplicationMonitor.h"
+// Demonstrates usage of the WatchdogLog library
+#include "WatchdogLog.h"
+#include <EEPROM.h>  //If you are using Arduino IDE version 1.0.x then you will need to install the EEPROM v2.0 library from here: https://github.com/arduino/Arduino/tree/ide-1.5.x/hardware/arduino/avr/libraries/EEPROM If you are using Arduino IDE version 1.6.2+ then the library is already installed.
 
-Watchdog::CApplicationMonitor ApplicationMonitor;
+const byte EEPROMaddress = 0;  //EEPROM address to store the program address where the watchdog timeout reset occurred
 
-// An LED to flash while we can. 
-const int gc_nLEDPin = 13;
+Watchdog::CWatchdogLog WatchdogLog;  //instantiate the class
 
-// countdown until the program locks up. 
-int g_nEndOfTheWorld = 15; 
-
-// number of iterations completed. 
-int g_nIterations = 0;     
-
-void setup()
-{
+void setup() {
   Serial.begin(9600);
-  pinMode(gc_nLEDPin, OUTPUT);
-  Serial.println("Ready");
-
-  ApplicationMonitor.Dump(Serial);
-  ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_4s);
-  //ApplicationMonitor.DisableWatchdog();
-
-  Serial.println("Hello World!");
-}
-
-void loop()
-{
-  ApplicationMonitor.IAmAlive();
-  ApplicationMonitor.SetData(g_nIterations++);
-
-  Serial.println("The end is nigh!!!");
-
-  digitalWrite(gc_nLEDPin, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(200);               // wait for a second
-  digitalWrite(gc_nLEDPin, LOW);    // turn the LED off by making the voltage LOW
-  delay(200);               // wait for a second
-
-  if (g_nEndOfTheWorld == 0)
-  {
-    Serial.println("The end is here. Goodbye cruel world.");
-    while(1)
-      ; // do nothing until the watchdog timer kicks in and resets the program. 
+  while (!Serial) {};  //for Leonardo et al. Wait for the serial monitor to be opened before proceeding with the sketch.
+  Serial.println("\nProgram start");
+  unsigned long programAddress = WatchdogLog.getLoggedAddress();
+  if (programAddress > 0) {
+    Serial.print("Logged program address: ");
+    Serial.println(programAddress, HEX);
+    programAddress = 0;
+    EEPROM.put(EEPROMaddress + 3, programAddress);  //reset the EEPROM
   }
-
-  --g_nEndOfTheWorld;
+  else {
+    Serial.println("No program address logged");
+  }
+  wdt_enable(WDTO_2S);  //enable the watchdog timer with a 2 second timeout duration
+  WatchdogLog.begin(EEPROMaddress);  //initialize WatchdogLog
+  Serial.print("Waiting for watchdog timeout reset...");
+  while (true) {};  //perpetual loop until the watchdog times out
 }
+
+void loop() {
+}
+
