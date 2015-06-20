@@ -1,3 +1,4 @@
 WatchdogLog  KEYWORD1
 begin  KEYWORD2
-getLoggedAddress  KEYWORD2
+writeLog  KEYWORD2
+
