@@ -1,4 +1,4 @@
-WatchdogLog  KEYWORD1
-begin  KEYWORD2
-writeLog  KEYWORD2
+WatchdogLog	KEYWORD1
+begin	KEYWORD2
+writeLog	KEYWORD2
 
