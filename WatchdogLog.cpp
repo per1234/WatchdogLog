@@ -14,20 +14,22 @@ const byte programCounterSize = 2;  //bytes
 
 
 /*
-Function called when the watchdog interrupt fires. The function is naked so that
-we don't get program stated pushed onto the stack. Consequently the top two
-values on the stack will be the program counter when the interrupt fired. We're
-going to save that in the eeprom then let the second watchdog event reset the
-micro. We never return from this function.
+  Function called when the watchdog interrupt fires. The function is naked so that
+  we don't get program stated pushed onto the stack. Consequently the top programCounterSize
+  values on the stack will be the program counter when the interrupt fired. We're
+  going to save that in the EEPROM then let the second watchdog event reset the
+  MCU. We never return from this function.
 */
 ISR(WDT_vect, ISR_NAKED) {
   register uint8_t *programCounter;  //Setup a pointer to the program counter. It goes in a register so we don't mess up the stack.
   programCounter = (uint8_t*)SP;
 
-  // The stack pointer on the AVR micro points to the next available location
-  // so we want to go back one location to get the first byte of the address
-  // pushed onto the stack when the interrupt was triggered. There will be
-  // programCounterSize bytes there.
+  /*
+    The stack pointer on the AVR micro points to the next available location
+    so we want to go back one location to get the first byte of the address
+    pushed onto the stack when the interrupt was triggered. There will be
+    programCounterSize bytes there.
+  */
   programCounter += programCounterSize;
 
   WatchdogLog.writeLog(programCounter);
@@ -39,8 +41,8 @@ WatchdogLogClass::WatchdogLogClass() {
 
 
 boolean WatchdogLogClass::begin(unsigned int EEPROMbaseAddressInput) {
-  if (EEPROMbaseAddressInput > E2END - sizeof(unsigned int) + 1) {
-    return false;
+  if (EEPROMbaseAddressInput > E2END - sizeof(unsigned int) + 1) {  //base address sanity check
+    return false;  //invalid base address
   }
   EEPROMbaseAddress = EEPROMbaseAddressInput;  //set the base EEPROM address for logging the program address
   WDTCSR |= _BV(WDIE);  //set the watchdog timer to trigger an interrupt(WDT_vect) before resetting the micro
