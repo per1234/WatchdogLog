@@ -1,12 +1,17 @@
 // WatchdogLog - logs program address to EEPROM before watchdog timeout MCU reset https://github.com/per1234/WatchdogLog
 #include "WatchdogLog.h"
 
-
-#if defined(__AVR_ATmega2560__)
+//determine the size of the program counter based on flash size
+#ifdef FLASHEND
+#if FLASHEND > 65535
 const byte programCounterSize = 3;  //bytes
-#else
+#else //FLASHEND > 65535
 const byte programCounterSize = 2;  //bytes
-#endif
+#endif  //FLASHEND > 65535
+#else  //FLASHEND
+const byte programCounterSize = 2;  //bytes
+#endif  //FLASHEND
+
 
 /*
 Function called when the watchdog interrupt fires. The function is naked so that
