@@ -23,7 +23,7 @@ The main purpose of the watchdog timer is to automatically reset the Arduino if 
 
 <a id="usage"></a>
 #### Usage
-See the example sketch **WatchdogLog.ino** for demonstration of usage.
+See the example sketch **File > Examples > WatchdogLog > WatchdogLogExample** for demonstration of usage.
 
 `WatchdogLog.begin(baseEEPROMaddress)` - Put the watchdog into interrupt+reset mode and set the base EEPROM address.
 - Parameter: **baseEEPROMaddress** - The base EEPROM address for storage of the program address where the watchdog timeout ocurred to EEPROM. The saved program address will take 4 bytes of EEPROM starting with this address.
