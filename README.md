@@ -34,11 +34,9 @@ See the example sketch **File > Examples > WatchdogLog > WatchdogLogExample** fo
 
 <a id="disassembly"></a>
 #### Disassembly
-When you upload a sketch to your Arduino the IDE compiles your program to assembly code. The program address logged by WatchdogLog relates to this code so you must produce a disassembly of the compiled code. This is accomplished by using the avr-objdump program included with the Arduino IDE in the Arduino\hardware\tools\avr\bin\ folder:
-
+When you upload a sketch to your Arduino the IDE compiles your program to assembly code. The program address logged by WatchdogLog relates to this code so you must produce a disassembly of the compiled code. This is accomplished by using the avr-objdump program included with the Arduino IDE in the **Arduino\hardware\tools\avr\bin\** folder:
 `avr-objdump -I[sketch path] -d -S -j .text [.elf file path] > disassembly.txt`
-
-avr-objdump needs to know the location of your sketch so that it can include the source code with the assembly code. It also needs to know the location of the compiled .elf file. This can be found by turning verbose ouput on in File > Preferences > Show verbose output during: compilation(check).
+The location of the compiled .elf file can be found by turning verbose ouput on in **File > Preferences > Show verbose output during: compilation(check)**. If you are using Arduino IDE versions 1.0.2 up to and including 1.6.5 then avr-objdump needs to know the location of your sketch so that it can include the source code with the assembly code.
 
 I have written a Windows batch file that automates the process of creating a disassembly dump of the last compiled sketch: http://github.com/per1234/ArduinoDisassembly
 
