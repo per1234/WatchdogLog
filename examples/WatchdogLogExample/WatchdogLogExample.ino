@@ -1,5 +1,5 @@
 // Demonstrates usage of the WatchdogLog library
-#include "WatchdogLog.h"
+#include <WatchdogLog.h>
 #include <EEPROM.h>  //If you are using Arduino IDE version 1.0.x then you will need to install the EEPROM v2.0 library from here: https://github.com/arduino/Arduino/tree/ide-1.5.x/hardware/arduino/avr/libraries/EEPROM If you are using Arduino IDE version 1.6.2+ then the library is already installed.
 
 const unsigned int EEPROMaddress = 0;  //EEPROM address to store the program address where the watchdog timeout reset occurred. The saved program address will take 4 bytes of EEPROM starting with this address.
