@@ -25,7 +25,7 @@ The main purpose of the watchdog timer is to automatically reset the Arduino if 
 #### Usage
 See the example sketches in **File > Examples > WatchdogLog** for demonstration of usage.
 
-`WatchdogLog.begin(baseEEPROMaddress)` - Put the watchdog into interrupt+reset mode and set the base EEPROM address.
+**`WatchdogLog.begin(baseEEPROMaddress)`** - Put the watchdog into interrupt+reset mode and set the base EEPROM address.
 - Parameter: **baseEEPROMaddress** - The base EEPROM address for storage of the program address where the watchdog timeout ocurred to EEPROM. The saved program address will take 4 bytes of EEPROM starting with this address.
   - Type: unsigned int
 - Returns: **true** = success, **false** = invalid EEPROM base address. The base address must allow for the 4 byte program address value to fit within the capacity of the EEPROM.
@@ -35,16 +35,20 @@ See the example sketches in **File > Examples > WatchdogLog** for demonstration 
 <a id="disassembly"></a>
 #### Disassembly
 When you upload a sketch to your Arduino the IDE compiles your program to assembly code. The program address logged by WatchdogLog relates to this code so you must produce a disassembly of the compiled code. This is accomplished by using the avr-objdump program included with the Arduino IDE in the **Arduino\hardware\tools\avr\bin\** folder:
-`avr-objdump -I[sketch path] -d -S -j .text [.elf file path] > disassembly.txt`
-The location of the compiled .elf file can be found by turning verbose ouput on in **File > Preferences > Show verbose output during: compilation(check)**. If you are using Arduino IDE versions 1.0.2 up to and including 1.6.5 then avr-objdump needs to know the location of your sketch so that it can include the source code with the assembly code.
+```
+avr-objdump -I[sketch path] -d -S -j .text [.elf file path] > disassembly.txt
+```
+The location of the compiled .elf file can be found by turning verbose ouput on in **File > Preferences > Show verbose output during: compilation**(check). If you are using Arduino IDE versions 1.0.2 up to and including 1.6.5-r5 then avr-objdump needs to know the location of your sketch so that it can include the source code with the assembly code.
 
 I have written a Windows batch file that automates the process of creating a disassembly dump of the last compiled sketch: http://github.com/per1234/ArduinoDisassembly
 
 Serial output from WatchdogLogExample.ino:
-`Logged program address: 224`
+```
+Logged program address: 224
+```
 
 Relevant section of the disassembly dump:
-```avrasm
+```
   Serial.println("Waiting for watchdog timeout reset...");
  20a:  0f b6         in  r0, 0x3f  ; 63
  20c: f8 94         cli
@@ -63,5 +67,5 @@ Relevant section of the disassembly dump:
 00000226 <loop>:
  226: 08 95         ret
  ```
-In this simple example it is fairly easy to decipher the disassembly but in many cases the address will point to the code of a function from a library that was running when the reset occurred. So you will need to find where in your code that function was called but it is still a valuable clue in tracking down elusive bugs.
+In this simple example it is fairly easy to decipher the disassembly but in many cases the address will point to the code of a function from a library that was running when the reset occurred. So you will need to find where in your code that function was called but it can still provide a valuable clue to track down an elusive bug.
 
