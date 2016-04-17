@@ -41,7 +41,7 @@ WatchdogLogClass::WatchdogLogClass() {
 
 
 boolean WatchdogLogClass::begin(unsigned int EEPROMbaseAddressInput) {
-  if (EEPROMbaseAddressInput > E2END - sizeof(unsigned int) + 1) {  //base address sanity check
+  if (EEPROMbaseAddressInput > E2END - sizeof(unsigned long) + 1) {  //base address sanity check
     return false;  //invalid base address
   }
   EEPROMbaseAddress = EEPROMbaseAddressInput;  //set the base EEPROM address for logging the program address
