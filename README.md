@@ -16,16 +16,17 @@ The main purpose of the watchdog timer is to automatically reset the Arduino if 
 #### Installation
 - Download the most recent version of WatchdogLog here: https://github.com/per1234/WatchdogLog/archive/master.zip
 - Using Arduino IDE 1.0.x:
-  - Sketch > Import Library... > Add Library... > select the downloaded file > Open
+  - **Sketch > Import Library... > Add Library... >** select the downloaded file **> Open**
 - Using Arduino IDE 1.5+:
-  - Sketch > Include Library > Add ZIP Library... > select the downloaded file > Open
+  - **Sketch > Include Library > Add ZIP Library... >** select the downloaded file **> Open**
 
 
 <a id="usage"></a>
 #### Usage
 See the example sketches in **File > Examples > WatchdogLog** for demonstration of usage.
 
-**`WatchdogLog.begin(baseEEPROMaddress)`** - Put the watchdog into interrupt+reset mode and set the base EEPROM address.
+##### `WatchdogLog.begin(baseEEPROMaddress)`
+Put the watchdog into interrupt+reset mode and set the base EEPROM address.
 - Parameter: **baseEEPROMaddress** - The base EEPROM address for storage of the program address where the watchdog timeout ocurred to EEPROM. The saved program address will take 4 bytes of EEPROM starting with this address.
   - Type: unsigned int
 - Returns: **true** = success, **false** = invalid EEPROM base address. The base address must allow for the 4 byte program address value to fit within the capacity of the EEPROM.
