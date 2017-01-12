@@ -1,4 +1,6 @@
 // Demonstrates usage of the WatchdogLog library to determine the cause of the last reset
+// WARNING!!! Use of watchdog as done in this sketch may brick certain Arduino boards due to a bug in their bootloader. See https://github.com/per1234/WatchdogLog/#warning for more information.
+
 #include <WatchdogLog.h>
 #include <EEPROM.h>  //If you are using Arduino IDE version 1.0.x then you will need to install the EEPROM v2.0 library from here: https://github.com/arduino/Arduino/tree/ide-1.5.x/hardware/arduino/avr/libraries/EEPROM. If you are using Arduino IDE version 1.6.2+ then the library is already installed.
 

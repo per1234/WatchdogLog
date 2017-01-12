@@ -8,6 +8,24 @@ WatchdogLog
 Based on: http://www.megunolink.com/how-to-detect-lockups-using-the-arduino-watchdog/
 
 
+#### WARNING!!!
+There is a bug in the bootloader used on some Arduino boards that causes them to go into an endless reset loop after a watchdog reset(https://github.com/arduino/Arduino/issues/4492), which makes it impossible to upload sketches. Due to this bug watchdog resets(including the ones in the examples included with this library) should not be done on the following boards unless you have replaced their bootloaders with one that has the bug fixed:
+- Duemilanove
+- Diecimila
+- Nano
+- Arduino Mega w/ ATmega1280 (ATmega2560 does not have the bug)
+- Mini
+- Fio
+- BT
+- LilyPad
+- Pro
+- Pro Mini
+- NG
+
+It's easy to update the bootloader on these boards by either burning the Uno bootloader in the case of the ATmega328P@16MHz boards, then using the board as an Uno thereafter, or using [MiniCore](https://github.com/MCUdude/MiniCore) for ATmega168 and/or 8MHz boards.
+If you have "bricked" your board by doing a watchdog reset with the buggy bootloader you can fix it by burning the bootloader with an ISP(in-system programming) programmer.
+
+
 #### The Watchdog Timer
 The main purpose of the watchdog timer is to automatically reset the Arduino if it locks up. The timeout duration of watchdog timer is set using `wdt_enable()`. If the timer is not reset using `wdt_reset()` before timing out it will trigger a reset of the microcontroller. Often the cause of unintended watchdog timeouts is a bug in the code. This library helps you to identify the location of the bug.
 
