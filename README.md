@@ -88,3 +88,7 @@ Relevant section of the disassembly dump:
  ```
 In this simple example it is fairly easy to decipher the disassembly but in many cases the address will point to the code of a function from a library that was running when the reset occurred. So you will need to find where in your code that function was called but it can still provide a valuable clue to track down an elusive bug.
 
+
+#### Contributing
+Pull requests or issue reports are welcome! Please see the [contribution rules](https://github.com/per1234/asdf/blob/master/CONTRIBUTING.md) for instructions.
+
