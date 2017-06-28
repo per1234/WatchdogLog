@@ -7,8 +7,8 @@ sudo: required
 env:
   global:
     # The Arduino IDE will be installed at APPLICATION_FOLDER/arduino
-    - APPLICATION_FOLDER="/usr/local/share"
-    - SKETCHBOOK_FOLDER="${HOME}/Arduino"
+    - APPLICATION_FOLDER="${HOME}/arduino-ide"
+    - SKETCHBOOK_FOLDER="${HOME}/arduino-sketchbook"
 
 
 before_install:
@@ -23,11 +23,12 @@ before_install:
   # Turn on verbose output during compilation
   #- set_verbose_output_during_compilation "true"
 
-  # set_parameters arguments: folder to install the Arduino IDE to, Sketchbook folder
-  - set_parameters "$APPLICATION_FOLDER" "$SKETCHBOOK_FOLDER"
+  # Check for library issues that don't affect compilation
+  - set_library_testing "true"
 
+  - set_application_folder "$APPLICATION_FOLDER"
+  - set_sketchbook_folder "$SKETCHBOOK_FOLDER"
 
-install:
   # The EEPROM v2.0 library, which is required by the examples, was added in Arduino IDE 1.6.2, but that version doesn't play nicely with other versions so I'm testing with 1.6.3 and newer
   - install_ide "1.6.3" "hourly"
 
@@ -42,8 +43,14 @@ script:
   # Test with the hourly build of the Arduino IDE to get a warning of any incompatibilities created by recent IDE changes but allow failure because failure may be caused by bugs or changes to the IDE that will be reverted.
   - build_sketch "${SKETCHBOOK_FOLDER}/libraries/WatchdogLog/examples" "arduino:avr:uno" "true" "hourly"
 
+
+after_script:
+  # Commit a report of the job results to the CI-reports repository
+  - USER_NAME="$(echo "$TRAVIS_REPO_SLUG" | cut -d'/' -f 1)"
+  - REPOSITORY_NAME="$(echo "$TRAVIS_REPO_SLUG" | cut -d'/' -f 2)"
+  - publish_report_to_repository "$REPORT_GITHUB_TOKEN" "https://github.com/${USER_NAME}/CI-reports.git" "$REPOSITORY_NAME" "build_$(printf "%05d\n" "${TRAVIS_BUILD_NUMBER}")" "false"
+  # Print a tab separated report of all sketch verification results to the log
   - display_report
-  - check_success
 
 
 notifications:
