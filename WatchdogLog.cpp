@@ -74,4 +74,3 @@ void WatchdogLogClass::writeLog(uint8_t *programCounter) {
 
 
 WatchdogLogClass WatchdogLog;
-

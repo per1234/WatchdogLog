@@ -17,4 +17,3 @@ class WatchdogLogClass {
 extern WatchdogLogClass WatchdogLog;
 
 #endif  //WatchdogLog_h
-
