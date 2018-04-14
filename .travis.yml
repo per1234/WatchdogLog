@@ -47,7 +47,7 @@ before_install:
   - set_sketchbook_folder "$SKETCHBOOK_FOLDER"
 
   # The EEPROM v2.0 library, which is required by the examples, was added in Arduino IDE 1.6.2, but that version doesn't play nicely with other versions so I'm testing with 1.6.3 and newer
-  - install_ide "1.6.3" "hourly"
+  - install_ide '("1.6.5-r5" "1.6.9" "1.6.13" "1.8.5" "newest")'
 
   # Install the library from the repository
   - install_library
@@ -57,8 +57,6 @@ script:
   # Compile all example sketches included with the library
   # build_sketch arguments: sketch name, fqbn, allow failure, IDE version/list/range
   - build_sketch "${SKETCHBOOK_FOLDER}/libraries/WatchdogLog/examples" "arduino:avr:uno" "false" "oldest" "newest"
-  # Test with the hourly build of the Arduino IDE to get a warning of any incompatibilities created by recent IDE changes but allow failure because failure may be caused by bugs or changes to the IDE that will be reverted.
-  - build_sketch "${SKETCHBOOK_FOLDER}/libraries/WatchdogLog/examples" "arduino:avr:uno" "true" "hourly"
 
 
 after_script:
