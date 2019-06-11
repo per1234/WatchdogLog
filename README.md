@@ -90,4 +90,4 @@ In this simple example it is fairly easy to decipher the disassembly but in many
 
 
 #### Contributing
-Pull requests or issue reports are welcome! Please see the [contribution rules](https://github.com/per1234/asdf/blob/master/CONTRIBUTING.md) for instructions.
+Pull requests or issue reports are welcome! Please see the [contribution rules](https://github.com/per1234/asdf/blob/master/.github/CONTRIBUTING.md) for instructions.
